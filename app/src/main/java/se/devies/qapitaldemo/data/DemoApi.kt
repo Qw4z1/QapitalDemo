@@ -5,7 +5,6 @@ import org.joda.time.DateTime
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-//http://qapital-ios-testtask.herokuapp.com/
 
 interface DemoApi {
     @GET("/savingsgoals")
