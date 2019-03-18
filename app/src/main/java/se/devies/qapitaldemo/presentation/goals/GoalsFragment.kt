@@ -7,14 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import se.devies.qapitaldemo.R
 import se.devies.qapitaldemo.data.SavingsGoal
 import se.devies.qapitaldemo.databinding.FragmentGoalsBinding
+import se.devies.qapitaldemo.presentation.BottomItemDecoration
+import se.devies.qapitaldemo.presentation.SideItemDecoration
+import se.devies.qapitaldemo.presentation.TopItemDecoration
 import se.devies.qapitaldemo.repo
 
-class GoalsFragment: Fragment(), GoalDetailView {
+class GoalsFragment: Fragment(), GoalsView {
 
-    lateinit var binding: FragmentGoalsBinding
-    lateinit var presenter: GoalsPresenter
+    private lateinit var binding: FragmentGoalsBinding
+    private lateinit var presenter: GoalsPresenter
+    private lateinit var adapter: GoalAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentGoalsBinding.inflate(inflater, container, false)
@@ -24,13 +29,24 @@ class GoalsFragment: Fragment(), GoalDetailView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter = GoalsPresenter(repo)
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView() {
+        adapter = GoalAdapter()
+        val itemPadding = resources.getDimensionPixelOffset(R.dimen.item_padding)
+        binding.goalsList.addItemDecoration(TopItemDecoration(itemPadding))
+        binding.goalsList.addItemDecoration(BottomItemDecoration(itemPadding))
+        binding.goalsList.addItemDecoration(SideItemDecoration(itemPadding))
+
+        binding.goalsList.adapter = adapter
+        binding.goalsList.setHasFixedSize(true)
     }
 
     override fun onStart() {
         super.onStart()
-        presenter.start(this)
         binding.presenter = presenter
-        binding.loading = false
+        presenter.start(this)
     }
 
     override fun onStop() {
@@ -40,7 +56,11 @@ class GoalsFragment: Fragment(), GoalDetailView {
 
     //region GoalDetailView
     override fun showLoading() {
+        binding.loading = true
+    }
 
+    override fun hideLoading() {
+        binding.loading = false
     }
 
     override fun showError() {
@@ -48,7 +68,7 @@ class GoalsFragment: Fragment(), GoalDetailView {
     }
 
     override fun showGoals(goals: List<SavingsGoal>) {
-
+        adapter.goals = goals
     }
 
     override fun navigateToDetails(goalId: Int) {

@@ -1,6 +1,11 @@
 package se.devies.qapitaldemo.presentation.goaldetail
 
-class GoalDetailPresenter {
+import se.devies.qapitaldemo.data.DemoRepo
+
+class GoalDetailPresenter(
+    private val repo: DemoRepo
+) {
+
 }
 
 interface GoalDetailView {

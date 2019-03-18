@@ -8,6 +8,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import se.devies.qapitaldemo.data.DemoApi
 import se.devies.qapitaldemo.data.DemoRepo
+import se.devies.qapitaldemo.data.DemoStore
 
 class GoalsApplication: Application() {
 
@@ -19,15 +20,21 @@ class GoalsApplication: Application() {
     }
 
     private fun initRepo() {
-        val api = Retrofit.Builder()
+        val api = createApi()
+        val store = createStore()
+        repo = DemoRepo(api, store)
+    }
+
+    private fun createApi() =
+        Retrofit.Builder()
             .baseUrl("http://qapital-ios-testtask.herokuapp.com/")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(OkHttpClient())
             .build()
             .create(DemoApi::class.java)
-        repo = DemoRepo(api)
-    }
+
+    private fun createStore() = DemoStore()
 }
 
 val Fragment.repo
