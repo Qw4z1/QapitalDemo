@@ -6,11 +6,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import se.devies.qapitaldemo.R
-import se.devies.qapitaldemo.data.SavingsGoal
 
-class GoalAdapter: RecyclerView.Adapter<GoalHolder>() {
+class GoalAdapter : RecyclerView.Adapter<GoalHolder>() {
 
-    var goals: List<SavingsGoal> = listOf()
+    var goals: List<GoalViewModel> = listOf()
         set(value) {
             field = value
             notifyDataSetChanged()

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable name="goal" type="se.devies.qapitaldemo.data.SavingsGoal"/>
+        <variable name="goal" type="se.devies.qapitaldemo.presentation.goals.GoalViewModel"/>
     </data>
     <androidx.cardview.widget.CardView
             android:orientation="vertical"
@@ -15,17 +16,33 @@
             <ImageView
                     android:id="@+id/goalImage"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="200dp"
                     android:scaleType="centerCrop"
-                    app:imageUrl="@{goal.goalImageURL}"
+                    app:imageUrl="@{goal.imageUrl}"
                     app:layout_constraintTop_toTopOf="parent"/>
             <TextView
                     android:id="@+id/goalTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{goal.name}"
+                    android:text="@{goal.titel}"
+                    android:textStyle="bold"
+                    tools:text="Jamaica"
+                    android:layout_margin="@dimen/goal_subtitle_margin"
+                    app:layout_constraintBottom_toBottomOf="@+id/goalImage"
+                    app:layout_constraintStart_toStartOf="parent"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/goalSubtitle"
+                    android:text="@{goal.subtitle}"
+                    android:padding="@dimen/goal_title_padding"
+                    tools:text="$40 of 160"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/goalImage"/>
+                    app:layout_constraintTop_toBottomOf="@id/goalImage"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="0dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

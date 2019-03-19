@@ -67,12 +67,11 @@ class GoalsFragment: Fragment(), GoalsView {
 
     }
 
-    override fun showGoals(goals: List<SavingsGoal>) {
+    override fun showGoals(goals: List<GoalViewModel>) {
         adapter.goals = goals
     }
 
     override fun navigateToDetails(goalId: Int) {
-        Log.d("clicker", "Clicked button goal id $goalId")
         val action = GoalsFragmentDirections.actionGoalsFragmentToGoalDetailFragment(
             goalid = goalId
         )
