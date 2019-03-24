@@ -1,6 +1,5 @@
 package se.devies.qapitaldemo.presentation.goaldetail
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,7 +18,6 @@ class GoalDetailFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentGoalDetailBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 

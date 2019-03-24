@@ -40,8 +40,7 @@ class GoalsPresenter(
                     Log.d("Glitter", "Completed refresh")
                 },
                 { throwable ->
-                    view?.hideLoading()
-                    Log.e("Glitter", "Failed refreshing", throwable)
+                    view?.showError(throwable)
                 }
             )
     }
@@ -53,7 +52,7 @@ class GoalsPresenter(
         return GoalViewModel(
             id = savingsGoal.id,
             imageUrl = savingsGoal.goalImageURL,
-            titel = savingsGoal.name,
+            title = savingsGoal.name,
             subtitle = subtitle
         )
     }
@@ -72,14 +71,14 @@ class GoalsPresenter(
 interface GoalsView {
     fun showLoading()
     fun hideLoading()
-    fun showError()
+    fun showError(throwable: Throwable)
     fun showGoals(goals: List<GoalViewModel>)
     fun navigateToDetails(goalId: Int)
 }
 
 data class GoalViewModel(
     val id: Int,
-    val titel: String,
+    val title: String,
     val subtitle: String,
     val imageUrl: String
 )

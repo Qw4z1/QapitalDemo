@@ -24,7 +24,7 @@
                     android:id="@+id/goalTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{goal.titel}"
+                    android:text="@{goal.title}"
                     android:textStyle="bold"
                     tools:text="Jamaica"
                     android:layout_margin="@dimen/goal_subtitle_margin"

@@ -7,7 +7,9 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import se.devies.qapitaldemo.R
 
-class GoalAdapter : RecyclerView.Adapter<GoalHolder>() {
+typealias ItemListener = (Int) -> Unit
+
+class GoalAdapter(private val listener : ItemListener) : RecyclerView.Adapter<GoalHolder>() {
 
     var goals: List<GoalViewModel> = listOf()
         set(value) {
@@ -24,6 +26,8 @@ class GoalAdapter : RecyclerView.Adapter<GoalHolder>() {
     override fun getItemCount(): Int = goals.size
 
     override fun onBindViewHolder(holder: GoalHolder, position: Int) {
-        holder.bind(goals[position])
+        val goal = goals[position]
+        holder.bind(goal)
+        holder.itemView.setOnClickListener { listener.invoke(goal.id) }
     }
 }

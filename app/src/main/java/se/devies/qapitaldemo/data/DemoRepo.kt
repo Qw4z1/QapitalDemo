@@ -10,9 +10,9 @@ class DemoRepo(
 
     fun refreshGoals(): Completable =
         demoApi.getSavingsGoals()
-            .doOnSuccess { demoStore.upsertGoals(it.savingsGoals) }
-            .ignoreElement()
+            .flatMapCompletable { demoStore.insertGoals(it.savingsGoals) }
 
-    fun observeGoals(): Observable<List<SavingsGoal>> = demoStore.savingsGoals
+    fun observeGoals(): Observable<List<SavingsGoal>> =
+        demoStore.savingsGoals
 
 }

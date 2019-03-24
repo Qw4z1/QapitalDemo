@@ -1,21 +1,20 @@
 package se.devies.qapitaldemo.presentation.goals
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import se.devies.qapitaldemo.R
-import se.devies.qapitaldemo.data.SavingsGoal
 import se.devies.qapitaldemo.databinding.FragmentGoalsBinding
 import se.devies.qapitaldemo.presentation.BottomItemDecoration
 import se.devies.qapitaldemo.presentation.SideItemDecoration
 import se.devies.qapitaldemo.presentation.TopItemDecoration
 import se.devies.qapitaldemo.repo
 
-class GoalsFragment: Fragment(), GoalsView {
+class GoalsFragment : Fragment(), GoalsView {
 
     private lateinit var binding: FragmentGoalsBinding
     private lateinit var presenter: GoalsPresenter
@@ -33,7 +32,7 @@ class GoalsFragment: Fragment(), GoalsView {
     }
 
     private fun initRecyclerView() {
-        adapter = GoalAdapter()
+        adapter = GoalAdapter(presenter::onGoalClicked)
         val itemPadding = resources.getDimensionPixelOffset(R.dimen.item_padding)
         binding.goalsList.addItemDecoration(TopItemDecoration(itemPadding))
         binding.goalsList.addItemDecoration(BottomItemDecoration(itemPadding))
@@ -63,8 +62,9 @@ class GoalsFragment: Fragment(), GoalsView {
         binding.loading = false
     }
 
-    override fun showError() {
-
+    override fun showError(throwable: Throwable) {
+        binding.loading = false
+        AlertDialog.Builder(context!!).setTitle(throwable.message).create().show()
     }
 
     override fun showGoals(goals: List<GoalViewModel>) {
