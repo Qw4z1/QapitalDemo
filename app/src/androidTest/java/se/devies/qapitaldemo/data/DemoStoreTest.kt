@@ -55,6 +55,15 @@ class DemoStoreTest {
         testObserver.assertValue(goals)
         testObserver.assertValueCount(1)
     }
+
+    @Test
+    fun getGoalForId() {
+        val goals = listOf(goal3)
+        dao.insertGoals(goals).test().assertComplete()
+        val testObserver = dao.observeGoal(goal3.id).test()
+        testObserver.assertValue(goals.first())
+        testObserver.assertValueCount(1)
+    }
 }
 
 private fun createGoals() =

@@ -1,9 +1,11 @@
 package se.devies.qapitaldemo.data
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import com.google.gson.Gson
+import com.google.gson.annotations.JsonAdapter
 import org.joda.time.DateTime
 
 @Entity
@@ -26,11 +28,19 @@ data class SavingsRule(
     val amount: Int
 )
 
-@Entity
+@Entity(
+    foreignKeys = [
+        ForeignKey(
+            entity = SavingsGoal::class,
+            childColumns = arrayOf("savingsGoalId"),
+            parentColumns = arrayOf("id")
+        )]
+)
 data class Feed(
     @PrimaryKey val id: String,
+    val savingsGoalId: Int,
     val type: String,
-    val timestamp: DateTime,
+    @JsonAdapter(DateTimeTypeConverter::class) val timestamp: DateTime,
     val message: String,
     val amount: Float,
     val userId: Int,
@@ -53,8 +63,8 @@ class Converters {
 class DateConverter {
 
     @TypeConverter
-    fun dateToJson(date: DateTime): String = Gson().toJson(date)
+    fun dateToJson(date: DateTime): Long = date.millis
 
     @TypeConverter
-    fun jsonToDate(value: String): DateTime = Gson().fromJson(value, DateTime::class.java)
+    fun jsonToDate(value: Long): DateTime = DateTime(value)
 }

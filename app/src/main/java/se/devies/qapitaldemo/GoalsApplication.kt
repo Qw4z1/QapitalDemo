@@ -3,6 +3,7 @@ package se.devies.qapitaldemo
 import android.app.Application
 import androidx.fragment.app.Fragment
 import androidx.room.Room
+import net.danlew.android.joda.JodaTimeAndroid
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -15,6 +16,11 @@ import se.devies.qapitaldemo.data.DemoStore
 class GoalsApplication : Application() {
 
     val repo: DemoRepo by lazy { DemoRepo(createApi(), createStore()) }
+
+    override fun onCreate() {
+        super.onCreate()
+        JodaTimeAndroid.init(this)
+    }
 
     private fun createApi() =
         Retrofit.Builder()

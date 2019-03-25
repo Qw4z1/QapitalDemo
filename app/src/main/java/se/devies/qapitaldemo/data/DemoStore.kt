@@ -2,15 +2,14 @@ package se.devies.qapitaldemo.data
 
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.room.*
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.Observable
 
 class DemoStore(
     db: AppDatabase
 ) {
-
     private val dao = db.goalsDao()
 
     @SuppressLint("CheckResult")
@@ -19,11 +18,11 @@ class DemoStore(
     val savingsGoals: Observable<List<SavingsGoal>>
         get() = dao.getAll()
 
-    fun insertFeed(newList: List<Feed>) {
-        dao.insertFeed(newList)
-    }
+    fun insertFeed(newList: List<Feed>) = dao.insertFeed(newList)
 
-    fun feedItems(userIds: List<Int>): Flowable<List<Feed>> = dao.getFeedForUsers(userIds)
+    fun observeGoal(goalId: Int) = dao.observeGoal(goalId)
+
+    fun observeFeed(goalId: Int): Observable<List<Feed>> = dao.getFeedForGoal(goalId)
 
 }
 
@@ -53,13 +52,16 @@ interface DemoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertGoals(goals: List<SavingsGoal>): Completable
 
-    @Query("SELECT * from feed WHERE feed.userId IN (:users)")
-    fun getFeedForUsers(users: List<Int>): Flowable<List<Feed>>
+    @Query("SELECT * from feed WHERE feed.savingsGoalId = :goalId")
+    fun getFeedForGoal(goalId: Int): Observable<List<Feed>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertFeed(goals: List<Feed>)
+    fun insertFeed(goals: List<Feed>): Completable
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRules(goals: List<SavingsRule>)
+
+    @Query("SELECT * from savingsgoal WHERE id = :goalId")
+    fun observeGoal(goalId: Int): Observable<SavingsGoal>
 
 }

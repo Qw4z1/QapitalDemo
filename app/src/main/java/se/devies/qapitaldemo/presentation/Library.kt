@@ -5,6 +5,8 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -14,6 +16,11 @@ import io.reactivex.disposables.Disposable
 @BindingAdapter("imageUrl")
 fun ImageView.setImageUrl(url: String?) {
     Glide.with(context).load(url).into(this)
+}
+
+@BindingAdapter("html")
+fun TextView.setHtml(html: String) {
+    text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT)
 }
 
 @set:BindingAdapter("bind:visible")

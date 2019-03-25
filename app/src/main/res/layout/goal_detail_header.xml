@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="goalDetailModel"
+                  type="se.devies.qapitaldemo.presentation.goaldetail.GoalDetailModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/expanded_toolbar_height">
+
+        <ImageView
+                android:id="@+id/goalDetailHeaderImage"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{goalDetailModel.imageUrl}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+                android:id="@+id/goalDetailTitle"
+                android:text="@{goalDetailModel.title}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:textSize="24sp"
+                android:textColor="@android:color/white"
+                android:shadowColor="@color/shadowColor"
+                android:shadowDy="2"
+                android:shadowDx="2"
+                android:shadowRadius="4"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/goalDetailSubtitle"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"/>
+
+        <TextView
+                android:id="@+id/goalDetailSubtitle"
+                android:text="@{goalDetailModel.subtitle}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"
+                android:shadowColor="@color/shadowColor"
+                android:shadowDy="2"
+                android:shadowDx="2"
+                android:shadowRadius="4"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="8dp"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/progressBar"/>
+
+        <ProgressBar
+                android:id="@+id/progressBar"
+                android:progress="@{goalDetailModel.goalProgress}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="24dp"
+                android:visibility="visible"
+                android:max="100"
+                android:progressTint="@android:color/white"
+                android:backgroundTint="@color/shadowColor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/goalDetailHeaderImage"
+                style="?android:attr/progressBarStyleHorizontal"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

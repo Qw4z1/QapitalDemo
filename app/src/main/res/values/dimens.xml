@@ -3,4 +3,5 @@
     <dimen name="item_padding">16dp</dimen>
     <dimen name="goal_title_padding">16dp</dimen>
     <dimen name="goal_subtitle_margin">16dp</dimen>
+    <dimen name="expanded_toolbar_height">300dp</dimen>
 </resources>

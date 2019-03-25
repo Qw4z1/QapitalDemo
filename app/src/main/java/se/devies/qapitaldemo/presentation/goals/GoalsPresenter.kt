@@ -1,6 +1,5 @@
 package se.devies.qapitaldemo.presentation.goals
 
-import android.util.Log
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -23,7 +22,7 @@ class GoalsPresenter(
 
         disposables += repo.observeGoals()
             .map { list ->
-                list.map { mapGoalViewModel(it)}
+                list.map { it.toGoalViewModel() }
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -35,26 +34,9 @@ class GoalsPresenter(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {
-                    view?.hideLoading()
-                    Log.d("Glitter", "Completed refresh")
-                },
-                { throwable ->
-                    view?.showError(throwable)
-                }
+                { view?.hideLoading() },
+                { throwable -> view?.showError(throwable) }
             )
-    }
-
-    private fun mapGoalViewModel(savingsGoal: SavingsGoal): GoalViewModel {
-        val subtitle = if (savingsGoal.targetAmount > 0) "$${savingsGoal.currentBalance.toInt()} of ${savingsGoal.targetAmount.toInt()}"
-        else "$${savingsGoal.currentBalance.toInt()}"
-
-        return GoalViewModel(
-            id = savingsGoal.id,
-            imageUrl = savingsGoal.goalImageURL,
-            title = savingsGoal.name,
-            subtitle = subtitle
-        )
     }
 
     fun stop() {
@@ -82,3 +64,15 @@ data class GoalViewModel(
     val subtitle: String,
     val imageUrl: String
 )
+
+private fun SavingsGoal.toGoalViewModel(): GoalViewModel {
+    val subtitle = if (targetAmount > 0) "$${currentBalance.toInt()} of ${targetAmount.toInt()}"
+    else "$${currentBalance.toInt()}"
+
+    return GoalViewModel(
+        id = id,
+        imageUrl = goalImageURL,
+        title = name,
+        subtitle = subtitle
+    )
+}
